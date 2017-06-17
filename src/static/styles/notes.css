@@ -131,11 +131,21 @@ body {
     border-top: none;
 }
 
+.Notes_sidebar-item.Notes_sidebar-item--active .Notes_sidebar-item_title,
+.Notes_sidebar-item.Notes_sidebar-item--active .Notes_sidebar-item_descr {
+    transition: all 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    color: var(--primary-color);
+}
+
+.Notes_sidebar-item.Notes_sidebar-item--active {
+    background-color: var(--quartary-color);
+}
+
 .Notes_sidebar-item .Notes_sidebar-item_title {
     margin-left: 4.7%;
     color: var(--tertiary-color);
     font-weight: 600;
-    margin-bottom: 7.7%;
+    margin-bottom: 1%;
 }
 
 .Notes_sidebar-item .Notes_sidebar-item_descr {

@@ -10,21 +10,34 @@ import { inject, observer } from 'mobx-react'
 
 class Notes extends React.Component {
     render() {
-        const { notes } = this.props.notes;
+        const {
+            notes,
+            selectedNote,
+            changeSelectedNote,
+            addNote,
+            removeNote } = this.props.notes;
+
         return (
             <section className="Notes" data-page="notes" >
                 <aside className="Notes_sidebar">
                     <header className="Notes_header Notes_header--aside">
-                        <NoteAddIcon onClick={() => this.props.notes.addNote('Hello', 'world')} className="Notes_icon--add-icon Notes_icon Notes_icon--hoverable" />
+                        <NoteAddIcon
+                            onClick={() => addNote('Hello', 'world')}
+                            className="Notes_icon--add-icon Notes_icon Notes_icon--hoverable" />
                         <input className="Notes_search" type="text" placeholder="Search Notes..." />
                     </header>
-                    <NoteSidebarList notes={notes} />
+                    <NoteSidebarList
+                        notes={notes}
+                        changeActiveNote={changeSelectedNote}
+                        active={selectedNote} />
                 </aside>
                 <main className="Notes_content">
                     <header className="Notes_header Notes_header--content">
-                        <TrashIcon className="Notes_icon Notes_icon--hoverable" />
-                        <ShareIcon className="Notes_icon Notes_icon--hoverable" />
                         <InfoIcon className="Notes_icon Notes_icon--hoverable" />
+                        <TrashIcon
+                            onClick={() => removeNote(selectedNote)}
+                            className="Notes_icon Notes_icon--hoverable" />
+                        <ShareIcon className="Notes_icon Notes_icon--hoverable" />
                     </header>
                     <div className="Notes_content_text">
 

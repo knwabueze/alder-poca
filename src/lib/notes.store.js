@@ -20,12 +20,7 @@ const createStore = (db, auth) => {
                     const data = snapshot.val();
                     const values = _.values(data);
                     const keys = _.keys(data);
-
-                    const notes = _.map(values, (value, idx) => {
-                        value.key = keys[idx];
-                        return value;
-                    });
-
+                    const notes = _.map(values, (value, idx) => ({ key: keys[idx], ...value }));
                     this.notes = notes;
                 });
                 this.ref.child(user.uid).on('child_added', snapshot => {
@@ -34,19 +29,24 @@ const createStore = (db, auth) => {
                         title: snapshot.val().title,
                         description: snapshot.val().description
                     });
+                    this.selectedNote = snapshot.key;
                 });
                 this.ref.child(user.uid).on('child_removed', snapshot => {
-                    console.log(this.notes);
                     this.notes = _.filter(this.notes, i => i.key !== snapshot.key);
                 });
                 this.ref.child(user.uid).on('child_changed', snapshot => {
-                    
+                    this.notes[_.findIndex(this.notes, i => i.key === snapshot.key)] = {
+                        key: snapshot.key,
+                        title: snapshot.val().title,
+                        description: snapshot.val().description
+                    }
                 })
             }
         });
 
         extendObservable(this, {
             notes: [],
+            selectedNote: null,
             addNote: action((title, content) => {
                 if (!!this.currentUser) {
                     this.ref.child(this.currentUser.uid).push({
@@ -55,9 +55,23 @@ const createStore = (db, auth) => {
                     })
                 }
             }),
-            removeNote: action(id => {
+            removeNote: action(key => {
+                if (!!this.currentUser) {
+                    const index = _.findIndex(this.notes, i => i.key === key);
+                    if (this.notes.length === 1) {
+                        this.selectedNote = null;
+                    } else if (index === this.notes.length - 1) {
+                        this.selectedNote = this.notes[index - 1].key;
+                    } else {
+                        this.selectedNote = this.notes[index + 1].key;
+                    }
+                    this.ref.child(this.currentUser.uid).child(key).remove();
+                }
             }),
-            currentUser: auth.currentUser
+            currentUser: auth.currentUser,
+            changeSelectedNote: action(val => {
+                this.selectedNote = val;
+            })
         })
     }
 

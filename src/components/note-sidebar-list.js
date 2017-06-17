@@ -4,9 +4,14 @@ import NoteSidebarItem from './note-sidebar-item'
 import { observer } from 'mobx-react'
 import { map } from 'lodash'
 
-const NoteSidebarList = ({ notes }) => (
+const NoteSidebarList = ({ notes, changeActiveNote, active }) => (
     <div className="Notes_sidebar_content">
-        {map(notes, (note, idx) => <NoteSidebarItem key={idx} description={note.description} title={note.title} />)}
+        {map(notes, (note, idx) => <NoteSidebarItem
+            onClick={() => changeActiveNote(note.key)}
+            key={note.key}
+            description={note.description}
+            isActive={note.key === active}
+            title={note.title} />)}
     </div>
 );
 

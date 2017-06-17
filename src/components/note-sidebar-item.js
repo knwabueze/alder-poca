@@ -5,7 +5,9 @@ import { observer } from 'mobx-react'
 
 const NoteSidebarItem = ({ title, description, onClick, isActive }) => {
     return (
-        <div className={`Notes_sidebar-item ${isActive && 'Notes_siderbar-item--active'}`}>
+        <div
+            onClick={onClick}
+            className={`Notes_sidebar-item ${isActive ? 'Notes_sidebar-item--active' : ''}`}>
             <h3 className="Notes_sidebar-item_title">{truncate(title, {
                 length: 32
             })}</h3>
