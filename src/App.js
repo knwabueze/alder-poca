@@ -4,7 +4,6 @@ import { Provider, observer } from 'mobx-react';
 
 import stores from './lib/root.store';
 import lazyLoad from './components/lazy-load';
-import ProtectedRoute from './components/protected-route';
 
 const LandingPage = lazyLoad(() => import('./containers/landing'));
 const NotesPage = lazyLoad(() => import('./containers/notes'));
@@ -15,7 +14,7 @@ class App extends Component {
       <Provider {...stores}>        
         <BrowserRouter>
           <Switch>
-            <ProtectedRoute path="/notes" component={NotesPage} />
+            <Route path="/notes" component={NotesPage} />
             <Route exact path="/" component={LandingPage} />
           </Switch>
         </BrowserRouter>

@@ -1,0 +1,14 @@
+{
+  "database": {
+    "rules": "rules.bolt"
+  },
+  "hosting": {
+    "public": "build",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
