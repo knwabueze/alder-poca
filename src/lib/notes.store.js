@@ -1,13 +1,6 @@
-import { extendObservable, action } from 'mobx'
+import { extendObservable, action, computed } from 'mobx'
 import _ from 'lodash'
 
-// Data
-/* 
-{
-    "id": GUID,
-    "title": String,
-    "description": String
-} */
 const createStore = (db, auth) => {
 
     function NotesList(db, auth) {
@@ -29,7 +22,6 @@ const createStore = (db, auth) => {
                         title: snapshot.val().title,
                         description: snapshot.val().description
                     });
-                    this.selectedNote = snapshot.key;
                 });
                 this.ref.child(user.uid).on('child_removed', snapshot => {
                     this.notes = _.filter(this.notes, i => i.key !== snapshot.key);
@@ -41,12 +33,14 @@ const createStore = (db, auth) => {
                         description: snapshot.val().description
                     }
                 })
+
+                this.finishedSetup = true;
             }
         });
 
         extendObservable(this, {
             notes: [],
-            selectedNote: null,
+            finishedSetup: false,
             addNote: action((title, content) => {
                 if (!!this.currentUser) {
                     this.ref.child(this.currentUser.uid).push({
@@ -57,26 +51,37 @@ const createStore = (db, auth) => {
             }),
             removeNote: action(key => {
                 if (!!this.currentUser) {
-                    const index = _.findIndex(this.notes, i => i.key === key);
-                    if (this.notes.length === 1) {
-                        this.selectedNote = null;
-                    } else if (index === this.notes.length - 1) {
-                        this.selectedNote = this.notes[index - 1].key;
-                    } else {
-                        this.selectedNote = this.notes[index + 1].key;
-                    }
                     this.ref.child(this.currentUser.uid).child(key).remove();
                 }
             }),
             currentUser: auth.currentUser,
             changeSelectedNote: action(val => {
                 this.selectedNote = val;
-            })
+            }),
+            findNote: key => {
+                if (this.notes.length !== 0) {
+                    const val = _.find(this.notes, n => n.key === key)
+                    return val;
+                }
+            },
+            updateNoteTitle: action((key, title) => {
+                this.ref.child(this.currentUser.uid).child(key).update({
+                    title
+                })
+            }),
+            updateNoteDescription: action((key, description) => {
+                this.ref.child(this.currentUser.uid).child(key).update({
+                    description
+                })
+            }),
+            isEmpty: computed(() => this.notes.length === 0),
+            detatch: () => {
+                this.ref.off()
+            }
         })
     }
 
     const list = new NotesList(db, auth);
-    list.addNote('Hello', 'Kamsi Nwabueze');
     return list;
 }
 

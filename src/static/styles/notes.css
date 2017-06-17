@@ -10,14 +10,14 @@
     --septary-color: #C2C2C2;
     --octary-color: #B3B3B3;
 }
-
+   
 .Notes {
     height: 100vh;
     display: flex;
     flex-direction: row;
 }
 
-.Notes h1, h2, h3, h4, h5, h6, p, a, input {
+.Notes h1, .Notes h2, .Notes h3, .Notes h4, .Notes h5, .Notes h6, .Notes p, .Notes a, .Notes input {
     font-family: 'Roboto', sans-serif;
 }
 
@@ -76,6 +76,7 @@ body {
 
 .Notes_content_text {
     flex: 9;
+    display: block;
 }
 
 .Notes_header.Notes_header--aside {
@@ -89,7 +90,7 @@ body {
 
 .Notes_header--content .Notes_icon {
     width: 3%;
-    margin-right: 2.8%;
+    margin-right: 1%;
 }
 
 .Notes_sidebar_content {
@@ -132,8 +133,7 @@ body {
 }
 
 .Notes_sidebar-item.Notes_sidebar-item--active .Notes_sidebar-item_title,
-.Notes_sidebar-item.Notes_sidebar-item--active .Notes_sidebar-item_descr {
-    transition: all 0.2s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+.Notes_sidebar-item.Notes_sidebar-item--active .Notes_sidebar-item_descr {    
     color: var(--primary-color);
 }
 
@@ -153,4 +153,35 @@ body {
     color: var(--octary-color);
     margin-top: 0;
     font-weight: 400;
+}
+
+.Notes_content_text .Notes_content_text_header {
+    outline: none;
+    border: none;
+    background: none;
+    width: 100%;
+    padding-bottom: 0%;
+    font-style: italic;
+    color: var(--tertiary-color);
+    font-size: 32px;
+    font-weight: 600;
+    box-sizing: border-box;
+    display: block;
+    margin-bottom: 1%;
+}
+
+.Notes_content_text .DraftEditor-root {
+    padding: 3%;
+    padding-left: 5%;
+    display: inline-block;
+    text-align: left;
+    display: block;
+    font-size: 22px;
+    padding-top: none;
+}
+
+.Notes_content_text > * {
+    font-family: 'Roboto', sans-serif;
+    color: var(--septary-color);
+    padding: 5%;
 }
