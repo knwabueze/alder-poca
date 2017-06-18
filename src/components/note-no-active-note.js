@@ -1,9 +1,9 @@
 import React from 'react'
 
-const NoNotes = () => (
+const NoteNoActiveNote = () => (
     <div className="Notes_content_text">
 
     </div>
 )
 
-export default NoNotes;
+export default NoteNoActiveNote;

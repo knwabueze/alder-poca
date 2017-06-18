@@ -22,12 +22,12 @@
 }
 
 .Notes_search {
-    height: 29%;
+    height: 25%;
     width: 59%;
     border: none;
     border-radius: 20px;
-    padding: 6px 0;
-    padding-left: 47px;
+    padding: 3% 0;
+    padding-left: 15%;
     color: var(--sextary-color);
     background: var(--quartary-color) url('../svg/ic_search_black_24px.svg') no-repeat center;
     font-weight: 600;
@@ -39,10 +39,6 @@
 .Notes_search:focus {
     outline: none;
     opacity: 1;
-}
-
-body {
-    margin: 0;
 }
 
 .Notes_sidebar {
@@ -74,11 +70,6 @@ body {
     align-items: center;
 }
 
-.Notes_content_text {
-    flex: 9;
-    display: block;
-}
-
 .Notes_header.Notes_header--aside {
     display: flex;
     flex-direction: row;
@@ -89,7 +80,7 @@ body {
 }
 
 .Notes_header--content .Notes_icon {
-    width: 3%;
+    width: 3%;    
     margin-right: 1%;
 }
 
@@ -103,6 +94,7 @@ body {
 
 .Notes_icon {
     fill: var(--primary-color);
+    height: 33%;
 }
 
 .Notes_icon--add-icon {
@@ -141,6 +133,10 @@ body {
     background-color: var(--quartary-color);
 }
 
+.Notes_sidebar-item_title--faded {
+    opacity: 0.7;    
+}
+
 .Notes_sidebar-item .Notes_sidebar-item_title {
     margin-left: 4.7%;
     color: var(--tertiary-color);
@@ -155,42 +151,7 @@ body {
     font-weight: 400;
 }
 
-.Notes_content_text .Notes_content_text_header {
-    outline: none;
-    border: none;
-    background: none;
-    width: 100%;
-    padding-bottom: 0%;
-    font-style: italic;
-    color: var(--tertiary-color);
-    font-size: 32px;
-    font-weight: 600;
-    box-sizing: border-box;
+.Notes_content_text {
+    flex: 9;
     display: block;
-    margin-bottom: 0.1%;
-    cursor: auto;
-}
-
-.Notes_content_text .DraftEditor-root {
-    padding: 3%;
-    padding-left: 5%;
-    display: inline-block;
-    text-align: left;
-    display: block;
-    font-size: 22px;
-    padding-top: none;
-}
-
-.Notes_content_text > * {
-    font-family: 'Roboto', sans-serif;
-    color: var(--septary-color);
-    padding: 5%;
-}
-
-.Notes_content_text .public-DraftEditorPlaceholder-root {
-    opacity: 0.5;
-}
-
-.Notes_sidebar-item_title.Notes_sidebar-item_title--faded {
-    opacity: 0.7;
 }

@@ -1,7 +1,6 @@
 path /notes/{uid} is Note[] {
   read() { isUserOrAdmin(uid) }
   write() { isUserOrAdmin(uid) }
-  index() { ["title"] }
 }
 
 isUserOrAdmin(uid) { return isCurrentUser(uid) || isAdmin() }
@@ -10,8 +9,5 @@ isCurrentUser(uid) { return isSignedIn() && auth.uid == uid }
 isSignedIn() { return auth != null }
 
 type Note {
-  title: String,
   description: String
-
-  validate() { return this.title.length <= 2000 }  
 }

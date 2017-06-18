@@ -1,51 +1,17 @@
-import { extendObservable, action, computed } from 'mobx'
+import { extendObservable, action, computed, ObservableMap } from 'mobx'
 import _ from 'lodash'
 
 const createStore = (db, auth) => {
 
     function NotesList(db, auth) {
-        this.ref = db.ref('notes')
-
-        auth.onAuthStateChanged(user => {
-            this.currentUser = user;
-            this.notes = [];
-            if (!!user) {
-                this.ref.child(user.uid).once('value', snapshot => {
-                    const data = snapshot.val();
-                    const values = _.values(data);
-                    const keys = _.keys(data);
-                    const notes = _.map(values, (value, idx) => ({ key: keys[idx], ...value }));
-                    this.notes = notes;
-                });
-                this.ref.child(user.uid).on('child_added', snapshot => {
-                    this.notes.push({
-                        key: snapshot.key,
-                        title: snapshot.val().title,
-                        description: snapshot.val().description
-                    });
-                });
-                this.ref.child(user.uid).on('child_removed', snapshot => {
-                    this.notes = _.filter(this.notes, i => i.key !== snapshot.key);
-                });
-                this.ref.child(user.uid).on('child_changed', snapshot => {
-                    this.notes[_.findIndex(this.notes, i => i.key === snapshot.key)] = {
-                        key: snapshot.key,
-                        title: snapshot.val().title,
-                        description: snapshot.val().description
-                    }
-                })
-
-                this.finishedSetup = true;
-            }
-        });
+        this.ref = db.ref('notes');
 
         extendObservable(this, {
-            notes: [],
+            notes: new ObservableMap({}),
             finishedSetup: false,
-            addNote: action((title, description) => {
+            addNote: action(description => {
                 if (!!this.currentUser) {
                     this.ref.child(this.currentUser.uid).push({
-                        title,
                         description
                     })
                 }
@@ -56,26 +22,41 @@ const createStore = (db, auth) => {
                 }
             }),
             currentUser: auth.currentUser,
-            findNote: key => {
-                if (this.notes.length !== 0) {
-                    const val = _.find(this.notes, n => n.key === key)
-                    return val;
-                }
-            },
-            updateNoteTitle: action((key, title) => {
-                this.ref.child(this.currentUser.uid).child(key).update({
-                    title
-                })
-            }),
-            updateNoteDescription: action((key, description) => {
+            findNote: key => this.notes.get(key),
+            updateNote: action((key, description) => {
                 this.ref.child(this.currentUser.uid).child(key).update({
                     description
                 })
             }),
-            isEmpty: computed(() => this.notes.length === 0),
+            isEmpty: computed(() => this.notes.size === 0),
             detatch: () => this.ref.off(),
-            indexOf: key =>  _.findIndex(this.notes, n => n.key === key)
-            })
+            json: computed(() => this.notes.toJS())
+        })
+
+        auth.onAuthStateChanged(user => {
+            this.currentUser = user;
+            this.finishedSetup = false;
+            if (!!user) {
+                this.ref.child(user.uid).once('value', snapshot => {
+                    const data = snapshot.val();
+                    _.map(data, (value, key) => {
+                        this.notes.set(key, value);
+                    })
+                });
+                this.ref.child(user.uid).on('child_added', snapshot => {
+                    this.notes.set(snapshot.key, snapshot.val());
+                });
+                this.ref.child(user.uid).on('child_removed', snapshot => {
+                    this.notes.delete(snapshot.key);
+                });
+                this.ref.child(user.uid).on('child_changed', snapshot => {
+                    this.notes.set(snapshot.key, snapshot.val());
+                })
+                this.finishedSetup = true;
+            }
+        });
+
+
     }
 
     const list = new NotesList(db, auth);
