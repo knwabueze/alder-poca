@@ -8,9 +8,12 @@ const NoteSidebarItem = ({ title, description, onClick, isActive }) => {
         <div
             onClick={onClick}
             className={`Notes_sidebar-item ${isActive ? 'Notes_sidebar-item--active' : ''}`}>
-            <h3 className="Notes_sidebar-item_title">{truncate(title, {
-                length: 32
-            })}</h3>
+            <h3
+                className={`Notes_sidebar-item_title ${title === '' ? 'Notes_sidebar-item_title--faded' : ''}`}>
+                {title !== '' ? truncate(title, {
+                    length: 32
+                }) : 'Untitled Page'}
+            </h3>
             <h5 className="Notes_sidebar-item_descr">{truncate(description, {
                 length: 42
             })}</h5>

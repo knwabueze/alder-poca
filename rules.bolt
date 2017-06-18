@@ -11,7 +11,7 @@ isSignedIn() { return auth != null }
 
 type Note {
   title: String,
-  description: String | Null
+  description: String
 
   validate() { return this.title.length <= 2000 }  
 }

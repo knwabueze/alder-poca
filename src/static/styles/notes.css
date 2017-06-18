@@ -167,7 +167,8 @@ body {
     font-weight: 600;
     box-sizing: border-box;
     display: block;
-    margin-bottom: 1%;
+    margin-bottom: 0.1%;
+    cursor: auto;
 }
 
 .Notes_content_text .DraftEditor-root {
@@ -184,4 +185,12 @@ body {
     font-family: 'Roboto', sans-serif;
     color: var(--septary-color);
     padding: 5%;
+}
+
+.Notes_content_text .public-DraftEditorPlaceholder-root {
+    opacity: 0.5;
+}
+
+.Notes_sidebar-item_title.Notes_sidebar-item_title--faded {
+    opacity: 0.7;
 }

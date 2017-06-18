@@ -8,6 +8,7 @@ const createStore = (db, auth) => {
 
         auth.onAuthStateChanged(user => {
             this.currentUser = user;
+            this.notes = [];
             if (!!user) {
                 this.ref.child(user.uid).once('value', snapshot => {
                     const data = snapshot.val();
@@ -41,11 +42,11 @@ const createStore = (db, auth) => {
         extendObservable(this, {
             notes: [],
             finishedSetup: false,
-            addNote: action((title, content) => {
+            addNote: action((title, description) => {
                 if (!!this.currentUser) {
                     this.ref.child(this.currentUser.uid).push({
                         title,
-                        description: content
+                        description
                     })
                 }
             }),
@@ -55,9 +56,6 @@ const createStore = (db, auth) => {
                 }
             }),
             currentUser: auth.currentUser,
-            changeSelectedNote: action(val => {
-                this.selectedNote = val;
-            }),
             findNote: key => {
                 if (this.notes.length !== 0) {
                     const val = _.find(this.notes, n => n.key === key)
@@ -75,10 +73,9 @@ const createStore = (db, auth) => {
                 })
             }),
             isEmpty: computed(() => this.notes.length === 0),
-            detatch: () => {
-                this.ref.off()
-            }
-        })
+            detatch: () => this.ref.off(),
+            indexOf: key =>  _.findIndex(this.notes, n => n.key === key)
+            })
     }
 
     const list = new NotesList(db, auth);
