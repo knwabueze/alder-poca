@@ -42,7 +42,7 @@
 }
 
 .Notes_sidebar {
-    flex: 2;
+    flex: 3;
     background: var(--secondary-color);
     border-right-color: var(--quartary-color);
     border-right: solid 1px;
@@ -153,5 +153,17 @@
 
 .Notes_content_text {
     flex: 9;
-    display: block;
+    color: var(--tertiary-color);
+}
+
+.Notes_content_text :global(.public-DraftEditor-content) {
+    max-height: 70vh;
+    max-width: 60vmax;  
+    overflow: auto;
+}
+
+.Notes_content_text .DraftEditor-root {
+    font-family: "Roboto", sans-serif;
+    margin-top: 10vh;
+    margin-left: 10vw;
 }

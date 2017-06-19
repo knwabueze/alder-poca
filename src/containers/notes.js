@@ -9,7 +9,6 @@ import NoteActiveNote from '../components/note-active-note';
 import '../static/styles/notes.css';
 
 import { inject, observer } from 'mobx-react';
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { debounce, filter } from 'lodash'
 
 class Notes extends React.Component {
@@ -60,14 +59,10 @@ class Notes extends React.Component {
         addNote('');
     }
 
-    onEditorChanged = editorState => {
-        const { selectedNote } = this.state;
-        const { updateNote } = this.props.notes;
-        updateNote(selectedNote, editorState);
-    }
-
     render() {
-        const { json, updateNote } = this.props.notes;
+        const {
+            json,
+            updateNote } = this.props.notes;
 
         const {
             selectedNote,
@@ -98,8 +93,9 @@ class Notes extends React.Component {
                         onTrashClicked={this.onRemoveSelectedNote} />
                     {!!selectedNote ?
                         <NoteActiveNote
-                            onChange={editorState => { updateNote(selectedNote, editorState) }}
+                            onChange={this.onEditorChanged}
                             activeNote={selectedNote}
+                            persistToDatabase={updateNote}
                             notes={json} />
                         : <NoteNoActiveNote />}
                 </main>

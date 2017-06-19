@@ -4,8 +4,12 @@
   "private": true,
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "draft-convert": "^1.4.6",
     "draft-js": "^0.10.1",
+    "draft-js-emoji-plugin": "beta",
     "draft-js-export-html": "^0.5.4",
+    "draft-js-plugins-editor": "beta",
+    "draft-js-side-toolbar-plugin": "beta",
     "draftjs-md-converter": "^0.1.4",
     "firebase": "^4.1.2",
     "lodash": "^4.17.4",

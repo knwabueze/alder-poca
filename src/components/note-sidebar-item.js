@@ -1,13 +1,24 @@
 import React from 'react'
-import { truncate } from 'lodash'
 
+import { truncate } from 'lodash'
 import { observer } from 'mobx-react'
 
 const NoteSidebarItem = ({ description, onClick, isActive }) => {
-    const splitDescription = description
-        .replace(/<\/?[^>]+(>|$)/g, "")
-        .replace(/&nbsp;/g, ' ')
-        .split(`\n`);
+
+    let str = description;
+
+    str = str.replace(/<br.*\/?>/gi, "\n");
+    str = str.replace(/<(p)\b[^>]*>(.*?)<\/\1>/gi, "$2\n");
+    str = str.replace(/<a.*href="(.*?)"\b[^>]*>(.*?)<\/a>/gi, "$2 (Link->$1)");
+    str = str.replace(/<(h[1-6]{1})\b[^>]*>(.*?)<\/\1>/gi, '$2\n');
+    str = str.replace(/<([A-Z][A-Z0-9]*)\b[^>]*>(.*?)<\/\1>/gi, "$2");
+    str = str.replace('&gt;', '>');   
+    str = str.replace('&lt;', '<');
+    str = str.replace('&#x27;', '\'');
+    str = str.replace('&quot;', '"');
+
+    const splitDescription = str.split('\n');
+
 
     const title = splitDescription[0];
     const lastLine = splitDescription.length !== 1 ? splitDescription[1] : '';
