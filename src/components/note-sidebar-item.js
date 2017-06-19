@@ -7,21 +7,26 @@ const NoteSidebarItem = ({ description, onClick, isActive }) => {
 
     let str = description;
 
-    str = str.replace(/<br.*\/?>/gi, "\n");
-    str = str.replace(/<(p)\b[^>]*>(.*?)<\/\1>/gi, "$2\n");
-    str = str.replace(/<a.*href="(.*?)"\b[^>]*>(.*?)<\/a>/gi, "$2 (Link->$1)");
-    str = str.replace(/<(h[1-6]{1})\b[^>]*>(.*?)<\/\1>/gi, '$2\n');
-    str = str.replace(/<([A-Z][A-Z0-9]*)\b[^>]*>(.*?)<\/\1>/gi, "$2");
-    str = str.replace('&gt;', '>');   
-    str = str.replace('&lt;', '<');
-    str = str.replace('&#x27;', '\'');
-    str = str.replace('&quot;', '"');
+    let parser = new DOMParser();
+    let doc = parser.parseFromString(str, "text/html");
 
-    const splitDescription = str.split('\n');
+    str = str.replace(/<br.*\/?>/gim, "\n");
+    str = str.replace(/<(p)\b[^>]*>(.*?)<\/\1>/gim, "$2\n");
+    str = str.replace(/<a.*href="(.*?)"\b[^>]*>(.*?)<\/a>/gim, "$2 (Link->$1)");
+    str = str.replace(/<(h[1-6]{1})\b[^>]*>(.*?)<\/\1>/gim, '$2\n');
+    str = str.replace(/<([A-Z][A-Z0-9]*)\b[^>]*>(.*?)<\/\1>/gim, "$2");
+    str = str.replace(/&gt;/gim, '>');
+    str = str.replace(/&lt;/gim, '<');
+    str = str.replace(/&#x27;/gim, '\'');
+    str = str.replace(/&quot;/gim, '"');
+    str = str.replace(/&amp;/gim, '&');
+    str = str.replace(/^[ \t]+/, '');
 
+    const splitDescription = doc.children;
+    console.log(splitDescription);
 
-    const title = splitDescription[0];
-    const lastLine = splitDescription.length !== 1 ? splitDescription[1] : '';
+    const title = splitDescription[0].textContent;
+    const lastLine = splitDescription.length !== 1 ? splitDescription[1].textContent : '';
 
     return (
         <div

@@ -51,7 +51,7 @@ class Notes extends React.Component {
     }
 
     onSearchbarChanged = event => {
-        this.setState({ searchbarState: event.target.value.toLowerCase() });
+        this.setState({ searchbarState: event.target.value.toLowerCase().replace(/^[ \t]+/, '') });
     }
 
     onAddIconClicked = () => {
@@ -72,6 +72,7 @@ class Notes extends React.Component {
             const description = o.description
                 .replace(/<\/?[^>]+(>|$)/g, "")
                 .replace('&nbsp;', ' ')
+                .replace(/^[ \t]+/, '')
                 .replace('\n', '');
             return description.toLowerCase().includes(searchbarState);
         }) : json;

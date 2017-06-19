@@ -10,4 +10,5 @@ isSignedIn() { return auth != null }
 
 type Note {
   description: String
+  // TODO: Add Timestamps for lastEdited and createdAt
 }
