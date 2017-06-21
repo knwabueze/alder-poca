@@ -3,6 +3,25 @@ import _ from "lodash";
 
 import { Editor, Raw, Plain } from "slate";
 import { observer } from "mobx-react";
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+  editorContainer: {
+    display: 'block'
+  },
+  editor: {
+    marginTop: '3em',
+    marginLeft: '3em',
+    fontSize: 16
+  },
+  editorPlaceholder: {
+    ':focus': {
+      opacity: '1'
+    },
+    opacity: 0.333
+  }
+});
+
 
 class NoteActiveNote extends React.Component {
   state = {
@@ -41,11 +60,15 @@ class NoteActiveNote extends React.Component {
     const { editor } = this.state;
 
     return (
-      <div className="Notes_content_text">
+      <div className="Notes_content_text" onClick={() => this.editor.focus()}>
         <Editor
+          className={css(styles.editor)}
+          placeholder="You can type text here..."
+          placeholderClassName={css(styles.editorPlaceholder)}
           state={editor}
           onChange={this.onChange}
           onDocumentChange={this.onDocumentChange}
+          ref={el => this.editor = el}
         />
       </div>
     );

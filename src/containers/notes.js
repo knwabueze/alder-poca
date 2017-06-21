@@ -5,6 +5,7 @@ import NoteSidebarHeader from "../components/note-sidebar-header";
 import NoteContentHeader from "../components/note-content-header";
 import NoteNoActiveNote from "../components/note-no-active-note";
 import NoteActiveNote from "../components/note-active-note";
+import MobxReactDevtools from "mobx-react-devtools";
 
 import "../static/styles/notes.css";
 
@@ -69,13 +70,16 @@ class Notes extends React.Component {
     let filteredJson = searchbarState !== ""
       ? filter(json, o => {
           const json = JSON.parse(o.content);
-          const content = Plain.serialize(Raw.deserialize(json, { terse: true }));
+          const content = Plain.serialize(
+            Raw.deserialize(json, { terse: true })
+          );
           return content.toLowerCase().includes(searchbarState);
         })
       : json;
 
     return (
       <section className="Notes" data-page="notes">
+        <MobxReactDevtools />
         <aside className="Notes_sidebar">
           <NoteSidebarHeader
             onAddClicked={this.onAddIconClicked}
