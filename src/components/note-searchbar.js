@@ -8,8 +8,16 @@ const styles = StyleSheet.create({
   searchBar: {
     opacity: 0.666,
     transition: 'opacity 0.3s ease-in-out',
-    background: `var(--quartary-color) url(${search}) no-repeat center`,
+    background: `#2B2E32 url(${search}) no-repeat center`,
     backgroundPositionX: '5%',
+    height: '2.5em',
+    width: '66.66%',
+    borderRadius: '20px',
+    padding: 0,
+    border: 'none',
+    color: '#C2C2C2',
+    fontFamily: '"Roboto", sans-serif',
+    paddingLeft: '15%',
     ':focus': {
       outline: 'none',
       opacity: 1

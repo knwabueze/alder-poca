@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         display: 'block',
         backgroundColor: '#2B2E32',
         color: '#D5D7D9',
-        height: '90vh'
+        height: '90vh',
     }
 });
 

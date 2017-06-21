@@ -7,11 +7,34 @@ import NoteNoActiveNote from "../components/note-no-active-note";
 import NoteActiveNote from "../components/note-active-note";
 import MobxReactDevtools from "mobx-react-devtools";
 
-import "../static/styles/notes.css";
-
 import { inject, observer } from "mobx-react";
 import { debounce, filter } from "lodash";
 import { Plain, Raw } from "slate";
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+  main: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'row',
+    fontFamily: '"Roboto", sans-serif'
+  },
+  sidebar: {
+    width: '27.27vw',
+    backgroundColor: '#36393E',
+    borderRight: 'solid 1px #2B2E32',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 3
+  },
+  content: {
+    width: '63.63vw',
+    backgroundColor: '#36393E',
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 8
+  }
+});
 
 class Notes extends React.Component {
   constructor(props) {
@@ -78,9 +101,9 @@ class Notes extends React.Component {
       : json;
 
     return (
-      <section className="Notes" data-page="notes">
+      <section className={css(styles.main)} data-page="notes">
         <MobxReactDevtools />
-        <aside className="Notes_sidebar">
+        <aside className={`Notes_sidebar ${css(styles.sidebar)}`}>
           <NoteSidebarHeader
             onAddClicked={this.onAddIconClicked}
             onSearchbarChanged={this.onSearchbarChanged}
@@ -92,7 +115,7 @@ class Notes extends React.Component {
             active={selectedNote}
           />
         </aside>
-        <main className="Notes_content">
+        <main className={`Notes_content ${css(styles.content)}`}>
           <NoteContentHeader onTrashClicked={this.onRemoveSelectedNote} />
           {!!selectedNote
             ? <NoteActiveNote

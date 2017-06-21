@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
   sidebarItemContainer: {
     borderTop: 'solid 1px silver',
     borderBottom: 'solid 1px silver',
-    color: '#C2C2C2'
+    color: '#C2C2C2',
+    borderRight: '#36393E'
   },
   sidebarItemContainerActive: {
     color: '#F26522',

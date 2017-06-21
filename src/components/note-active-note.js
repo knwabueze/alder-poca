@@ -15,7 +15,9 @@ const styles = StyleSheet.create({
   editor: {
     marginTop: '3em',
     marginLeft: '3em',
-    fontSize: 16
+    fontSize: 16,
+    maxHeight: '72vh',
+    maxWidth: '72vw'
   },
   editorPlaceholder: {
     ':focus': {
