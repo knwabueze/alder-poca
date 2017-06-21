@@ -1,81 +1,55 @@
-import 'babel-polyfill';
-import 'draft-js/dist/Draft.css';
-import 'draft-js-side-toolbar-plugin/lib/plugin.css';
-import 'draft-js-emoji-plugin/lib/plugin.css';
+import React from "react";
+import _ from "lodash";
 
-import React from 'react';
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
-import _ from 'lodash'
-
-import { EditorState } from 'draft-js';
-import { convertFromHTML, convertToHTML } from 'draft-convert'
-import { observer } from 'mobx-react';
-
-const sideToolbarPlugin = createSideToolbarPlugin();
-const { SideToolbar } = sideToolbarPlugin;
-
-const emojiPlugin = createEmojiPlugin();
-const { EmojiSuggestions } = emojiPlugin;
-
-const plugins = [sideToolbarPlugin, emojiPlugin];
+import { Editor, Raw, Plain } from "slate";
+import { observer } from "mobx-react";
 
 class NoteActiveNote extends React.Component {
+  state = {
+    editor: Plain.deserialize("")
+  };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            editor: createEditorStateWithText('')
-        }
+  componentWillMount() {
+    if (!_.isNil(this.props.selectedNote)) {
+      const { selectedNote } = this.props;
+      const json = JSON.parse(selectedNote.content);
+      const content = Raw.deserialize(json, { terse: true });
+      this.setState({ editor: content });
     }
+  }
 
-    componentWillMount() {
-        const { props } = this;
-
-        if (!_.isNil(props.activeNote)) {
-            const state = convertFromHTML(props.notes[props.activeNote].description);
-
-            this.setState({
-                editor: EditorState.push(this.state.editor, state)
-            })
-        }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selectedNote.key !== nextProps.selectedNote.key) {
+      const { selectedNote } = nextProps;
+      const json = JSON.parse(selectedNote.content);
+      const content = Raw.deserialize(json, { terse: true });
+      this.setState({ editor: content });
     }
+  }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.activeNote !== this.props.activeNote) {
-            const state = convertFromHTML(nextProps.notes[nextProps.activeNote].description);
+  onChange = state => {
+    this.setState({ editor: state });
+  };
 
-            this.setState({
-                editor: EditorState.push(this.state.editor, state)
-            });
-        }
-    }
+  onDocumentChange = (document, state) => {
+    const { updateContent } = this.props;
+    const content = JSON.stringify(Raw.serialize(state));
+    updateContent(content);
+  };
 
-    internalOnChange = editorState => {
-        const { persistToDatabase, activeNote } = this.props;
+  render() {
+    const { editor } = this.state;
 
-        persistToDatabase(activeNote, convertToHTML(editorState.getCurrentContent()));
-        this.setState({ editor: editorState });
-    }
-
-    render() {
-        const {
-            editor
-         } = this.state;
-
-        return (
-            <div className="Notes_content_text">
-                <Editor
-                    placeholder="You can type any type of text here."
-                    editorState={editor}
-                    plugins={plugins}
-                    onChange={this.internalOnChange} />
-                <SideToolbar />
-                <EmojiSuggestions />
-            </div>
-        );
-    }
+    return (
+      <div className="Notes_content_text">
+        <Editor
+          state={editor}
+          onChange={this.onChange}
+          onDocumentChange={this.onDocumentChange}
+        />
+      </div>
+    );
+  }
 }
 
 export default observer(NoteActiveNote);

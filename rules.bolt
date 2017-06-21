@@ -9,6 +9,6 @@ isCurrentUser(uid) { return isSignedIn() && auth.uid == uid }
 isSignedIn() { return auth != null }
 
 type Note {
-  description: String
+  content: String
   // TODO: Add Timestamps for lastEdited and createdAt
 }

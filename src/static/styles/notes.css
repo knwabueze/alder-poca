@@ -94,7 +94,7 @@
 
 .Notes_icon {
     fill: var(--primary-color);
-    height: 33%;
+    height: 22px;
 }
 
 .Notes_icon--add-icon {
@@ -154,16 +154,4 @@
 .Notes_content_text {
     flex: 9;
     color: var(--tertiary-color);
-}
-
-.Notes_content_text :global(.public-DraftEditor-content) {
-    max-height: 70vh;
-    max-width: 60vmax;  
-    overflow: auto;
-}
-
-.Notes_content_text .DraftEditor-root {
-    font-family: "Roboto", sans-serif;
-    margin-top: 10vh;
-    margin-left: 10vw;
 }

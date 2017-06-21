@@ -9,7 +9,7 @@ const NoteSidebarList = ({ notes, changeActiveNote, active }) => {
             {map(notes, (note, key) => <NoteSidebarItem
                 onClick={() => changeActiveNote(key)}
                 key={key}
-                description={note.description}
+                content={note.content}
                 isActive={key === active}/>)}
      </div>
 };

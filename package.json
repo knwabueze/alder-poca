@@ -3,14 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
-    "draft-convert": "^1.4.6",
-    "draft-js": "^0.10.1",
-    "draft-js-emoji-plugin": "beta",
-    "draft-js-export-html": "^0.5.4",
-    "draft-js-plugins-editor": "beta",
-    "draft-js-side-toolbar-plugin": "beta",
-    "draftjs-md-converter": "^0.1.4",
     "firebase": "^4.1.2",
     "lodash": "^4.17.4",
     "mobx": "^3.1.15",
@@ -18,7 +10,8 @@
     "mobx-react-devtools": "^4.2.15",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
-    "react-router-dom": "^4.1.1"
+    "react-router-dom": "^4.1.1",
+    "slate": "^0.20.3"
   },
   "devDependencies": {
     "firebase-bolt": "^0.8.2",
