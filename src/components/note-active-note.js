@@ -7,7 +7,10 @@ import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
   editorContainer: {
-    display: 'block'
+    display: 'block',
+    backgroundColor: '#2B2E32',
+    color: '#D5D7D9',
+    height: '90vh'
   },
   editor: {
     marginTop: '3em',
@@ -60,7 +63,7 @@ class NoteActiveNote extends React.Component {
     const { editor } = this.state;
 
     return (
-      <div className="Notes_content_text" onClick={() => this.editor.focus()}>
+      <div className={css(styles.editorContainer)} onClick={() => this.editor.focus()}>
         <Editor
           className={css(styles.editor)}
           placeholder="You can type text here..."

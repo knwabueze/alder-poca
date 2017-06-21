@@ -3,6 +3,32 @@ import React from "react";
 import { truncate } from "lodash";
 import { observer } from "mobx-react";
 import { Plain, Raw } from "slate";
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+  sidebarItemContainer: {
+    borderTop: 'solid 1px silver',
+    borderBottom: 'solid 1px silver',
+    color: '#C2C2C2'
+  },
+  sidebarItemContainerActive: {
+    color: '#F26522',
+    backgroundColor: '#2B2E32'
+  },
+  title: {
+    fontWeight: 600,
+    marginBottom: '1%',
+    marginLeft: '4.7%'
+  },
+  faded: {
+    opacity: 0.666
+  },
+  content: {
+    marginTop: 0,
+    marginLeft: '4.7%',
+    fontWeight: 400
+  }
+});
 
 const NoteSidebarItem = ({ content, onClick, isActive }) => {
   const json = JSON.parse(content);
@@ -16,22 +42,19 @@ const NoteSidebarItem = ({ content, onClick, isActive }) => {
   return (
     <div
       onClick={onClick}
-      className={`Notes_sidebar-item ${isActive
-        ? "Notes_sidebar-item--active"
-        : ""}`}
+      className={css(styles.sidebarItemContainer,
+        isActive && styles.sidebarItemContainerActive)}
     >
       <h3
-        className={`Notes_sidebar-item_title ${content === ""
-          ? "Notes_sidebar-item_title--faded"
-          : ""}`}
+        className={css(styles.title, str === "" && styles.faded)}
       >
         {title !== ""
           ? truncate(title, {
-              length: 32
-            })
+            length: 32
+          })
           : "Untitled Page"}
       </h3>
-      <h5 className="Notes_sidebar-item_descr">
+      <h5 className={css(styles.content)}>
         {truncate(lastLine, {
           length: 42
         })}

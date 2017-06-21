@@ -1,7 +1,18 @@
-import React from 'react'
+import React from "react";
+
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+    editorContainer: {
+        display: 'block',
+        backgroundColor: '#2B2E32',
+        color: '#D5D7D9',
+        height: '90vh'
+    }
+});
 
 const NoteNoActiveNote = () => (
-    <div className="Notes_content_text">
+    <div className={css(styles.editorContainer)}>
 
     </div>
 )
