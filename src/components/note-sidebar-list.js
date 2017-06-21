@@ -3,9 +3,19 @@ import NoteSidebarItem from './note-sidebar-item'
 
 import { observer } from 'mobx-react'
 import { map } from 'lodash'
+import { StyleSheet, css } from "aphrodite";
+
+const styles = StyleSheet.create({
+    content: {
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'auto',
+        flex: '9'
+    }
+});
 
 const NoteSidebarList = ({ notes, changeActiveNote, active }) => {    
-    return <div className="Notes_sidebar_content">        
+    return <div className={css(styles.content)}>        
             {map(notes, (note, key) => <NoteSidebarItem
                 onClick={() => changeActiveNote(key)}
                 key={key}

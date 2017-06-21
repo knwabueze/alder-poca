@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2B2E32',
         color: '#D5D7D9',
         height: '90vh',
+        flex: 9
     }
 });
 

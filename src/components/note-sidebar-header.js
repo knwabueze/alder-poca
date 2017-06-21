@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingTop: '10px',
     paddingBottom: '10px',
-    borderBottom: 'solid 1px #95989A'
+    borderBottom: 'solid 1px #95989A',
+    flex: 1
   },
   icon: {
     transition: 'fill 0.1s ease',

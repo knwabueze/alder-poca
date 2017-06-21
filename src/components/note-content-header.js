@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'row-reverse',
-    height: '10vh'
+    height: '10vh',
+    flex: 1
   },
   icon: {
     fill: '#F26522',

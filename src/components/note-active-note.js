@@ -10,7 +10,10 @@ const styles = StyleSheet.create({
     display: 'block',
     backgroundColor: '#2B2E32',
     color: '#D5D7D9',
-    height: '90vh'
+    height: '90vh',
+    flex: 9,
+    overflow: 'auto',
+    maxHeight: '90vh'
   },
   editor: {
     marginTop: '3em',

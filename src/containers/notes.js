@@ -25,7 +25,8 @@ const styles = StyleSheet.create({
     borderRight: 'solid 1px #2B2E32',
     display: 'flex',
     flexDirection: 'column',
-    flex: 3
+    flex: 3,
+    overflow: 'auto'
   },
   content: {
     width: '63.63vw',
