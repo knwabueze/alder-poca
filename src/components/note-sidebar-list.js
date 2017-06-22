@@ -14,9 +14,10 @@ const styles = StyleSheet.create({
     }
 });
 
-const NoteSidebarList = ({ notes, changeActiveNote, active }) => {    
+const NoteSidebarList = ({ theme, notes, changeActiveNote, active }) => {    
     return <div className={css(styles.content)}>        
             {map(notes, (note, key) => <NoteSidebarItem
+                theme={theme}
                 onClick={() => changeActiveNote(key)}
                 key={key}
                 content={note.content}

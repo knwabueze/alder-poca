@@ -9,12 +9,20 @@ const styles = StyleSheet.create({
   sidebarItemContainer: {
     borderTop: 'solid 1px silver',
     borderBottom: 'solid 1px silver',
-    color: '#C2C2C2',
     borderRight: '#36393E'
   },
-  sidebarItemContainerActive: {
+  sidebarItemContainerLight: {
+    color: '#2B2E32'
+  },
+  sidebarItemContainerDark: {
+    color: '#C2C2C2'
+  },
+  sidebarItemContainerActiveDark: {
     color: '#F26522',
     backgroundColor: '#2B2E32'
+  },
+  sidebarItemContainerActiveLight: {
+    color: '#3383C4'
   },
   title: {
     fontWeight: 600,
@@ -31,7 +39,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const NoteSidebarItem = ({ content, onClick, isActive }) => {
+const NoteSidebarItem = ({ theme, content, onClick, isActive }) => {
   const json = JSON.parse(content);
   let str = Plain.serialize(Raw.deserialize(json, { terse: true }));
 
@@ -44,7 +52,12 @@ const NoteSidebarItem = ({ content, onClick, isActive }) => {
     <div
       onClick={onClick}
       className={css(styles.sidebarItemContainer,
-        isActive && styles.sidebarItemContainerActive)}
+        theme === 'dark' ?
+          styles.sidebarItemContainerDark :
+          styles.sidebarItemContainerLight,
+        isActive && (theme === 'dark' ?
+          styles.sidebarItemContainerActiveDark :
+          styles.sidebarItemContainerActiveLight))}
     >
       <h3
         className={css(styles.title, str === "" && styles.faded)}

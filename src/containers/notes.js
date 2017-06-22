@@ -5,7 +5,6 @@ import NoteSidebarHeader from "../components/note-sidebar-header";
 import NoteContentHeader from "../components/note-content-header";
 import NoteNoActiveNote from "../components/note-no-active-note";
 import NoteActiveNote from "../components/note-active-note";
-import MobxReactDevtools from "mobx-react-devtools";
 
 import { inject, observer } from "mobx-react";
 import { debounce, filter } from "lodash";
@@ -21,19 +20,30 @@ const styles = StyleSheet.create({
   },
   sidebar: {
     width: '27.27vw',
-    backgroundColor: '#36393E',
     borderRight: 'solid 1px #2B2E32',
     display: 'flex',
     flexDirection: 'column',
     flex: 3,
     overflow: 'auto'
   },
+  sidebarLight: {
+    backgroundColor: '#F6F6F6',
+    borderRight: 'solid 1px hsla(214, 14, 20, .14)'
+  },
+  sidebarDark: {
+    backgroundColor: '#36393E',
+  },
   content: {
     width: '63.63vw',
-    backgroundColor: '#36393E',
     display: 'flex',
     flexDirection: 'column',
     flex: 8
+  },
+  contentDark: {
+    backgroundColor: '#36393E'
+  },
+  contentLight: {
+    backgroundColor: '#FFFFFF'
   }
 });
 
@@ -88,46 +98,55 @@ class Notes extends React.Component {
 
   render() {
     const { json, updateNote, findNote } = this.props.notes;
+    const { theme, toggleTheme } = this.props.view;
 
     const { selectedNote, searchbarState } = this.state;
 
     let filteredJson = searchbarState !== ""
       ? filter(json, o => {
-          const json = JSON.parse(o.content);
-          const content = Plain.serialize(
-            Raw.deserialize(json, { terse: true })
-          );
-          return content.toLowerCase().includes(searchbarState);
-        })
+        const json = JSON.parse(o.content);
+        const content = Plain.serialize(
+          Raw.deserialize(json, { terse: true })
+        );
+        return content.toLowerCase().includes(searchbarState);
+      })
       : json;
 
     return (
       <section className={css(styles.main)} data-page="notes">
-        <MobxReactDevtools />
-        <aside className={`Notes_sidebar ${css(styles.sidebar)}`}>
+        <aside className={css(styles.sidebar,
+          theme === 'dark' ? styles.sidebarDark : styles.sidebarLight)}>
           <NoteSidebarHeader
+            theme={theme}
             onAddClicked={this.onAddIconClicked}
             onSearchbarChanged={this.onSearchbarChanged}
             searchbarState={searchbarState}
           />
           <NoteSidebarList
+            theme={theme}
             notes={filteredJson}
             changeActiveNote={this.onNoteSelect}
             active={selectedNote}
           />
         </aside>
-        <main className={`Notes_content ${css(styles.content)}`}>
-          <NoteContentHeader onTrashClicked={this.onRemoveSelectedNote} />
+        <main className={css(styles.content,
+          theme === 'dark' ? styles.contentDark : styles.contentLight)}>
+          <NoteContentHeader
+            theme={theme}            
+            onToggleTheme={toggleTheme}
+            onTrashClicked={this.onRemoveSelectedNote} />
           {!!selectedNote
             ? <NoteActiveNote
-                selectedNote={findNote(selectedNote)}
-                updateContent={updateNote.bind(this.props.notes, selectedNote)}
-              />
-            : <NoteNoActiveNote />}
+              theme={theme}
+              selectedNote={findNote(selectedNote)}
+              updateContent={updateNote.bind(this.props.notes, selectedNote)}
+            />
+            : <NoteNoActiveNote
+              theme={theme} />}
         </main>
       </section>
     );
   }
 }
 
-export default inject("notes")(observer(Notes));
+export default inject(stores => ({ view: stores.view, notes: stores.notes }))(observer(Notes));

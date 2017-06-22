@@ -6,10 +6,16 @@ import { observer } from "mobx-react";
 import { StyleSheet, css } from "aphrodite";
 
 const styles = StyleSheet.create({
+  editorContainerDark: {
+    backgroundColor: '#2B2E32',
+    color: '#D5D7D9'
+  },
+  editorContainerLight: {
+    backgroundColor: '#fff',
+    color: '#24272B'
+  },
   editorContainer: {
     display: 'block',
-    backgroundColor: '#2B2E32',
-    color: '#D5D7D9',
     height: '90vh',
     flex: 9,
     overflow: 'auto',
@@ -18,6 +24,7 @@ const styles = StyleSheet.create({
   editor: {
     marginTop: '3em',
     marginLeft: '3em',
+    marginBottom: '3em',
     fontSize: 16,
     maxHeight: '72vh',
     maxWidth: '72vw'
@@ -66,9 +73,12 @@ class NoteActiveNote extends React.Component {
 
   render() {
     const { editor } = this.state;
+    const { theme } = this.props;
 
     return (
-      <div className={css(styles.editorContainer)} onClick={() => this.editor.focus()}>
+      <div className={css(styles.editorContainer,
+        theme === 'dark' ? styles.editorContainerDark : styles.editorContainerLight
+      )} onClick={() => this.editor.focus()}>
         <Editor
           className={css(styles.editor)}
           placeholder="You can type text here..."

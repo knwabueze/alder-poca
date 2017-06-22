@@ -1,9 +1,9 @@
-import { extendObservable, action, computed } from 'mobx'
+import { extendObservable, action, computed } from "mobx";
 
-const createStore = (auth, googleAuthProvider) => {
+const createStore = (auth, googleProvider) => {
     function Store() {
-        this.auth = auth
-        this.googleAuthProvider = googleAuthProvider;
+        this.auth = auth;
+        this.googleProvider = googleProvider;
 
         auth.onAuthStateChanged(user => {
             this.currentUser = user;
@@ -11,11 +11,13 @@ const createStore = (auth, googleAuthProvider) => {
 
         extendObservable(this, {
             currentUser: null,
+            theme: 'light',
             signOut: action(() => this.auth.signOut()),
             signInWithGoogle: action(() => this.auth.signInWithPopup(this.googleAuthProvider)),
-            authed: computed(() => !!this.currentUser)
-        })
-    };
+            authed: computed(() => !!this.currentUser),
+            toggleTheme: action(() => this.theme === 'dark' ? this.theme = 'light' : this.theme = 'dark')
+        });
+    }
 
     return new Store();
 }

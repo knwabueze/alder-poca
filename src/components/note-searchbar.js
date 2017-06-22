@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   searchBar: {
     opacity: 0.666,
     transition: 'opacity 0.3s ease-in-out',
-    background: `#2B2E32 url(${search}) no-repeat center`,
+    background: `url(${search}) no-repeat center`,
     backgroundPositionX: '5%',
     height: '2.5em',
     width: '66.66%',
@@ -22,14 +22,24 @@ const styles = StyleSheet.create({
       outline: 'none',
       opacity: 1
     }
+  },
+  searchBarDark: {
+    backgroundColor: '#2B2E32',
+    color: '#C2C2C2',
+    borderBottomColor: '#95989A'
+  },
+  searchBarLight: {
+    backgroundColor: '#E8E8E8',
+    color: '#95989A'
   }
 });
 
-const NoteSearchbar = ({ onChange, value }) =>
+const NoteSearchbar = ({ onChange, value, theme }) =>
   <input
     onChange={onChange}
     value={value}
-    className={`Notes_search ${css(styles.searchBar)}`}
+    className={css(styles.searchBar,
+      theme === 'dark' ? styles.searchBarDark : styles.searchBarLight)}
     type="text"
     placeholder="Search Notes..."
   />;
